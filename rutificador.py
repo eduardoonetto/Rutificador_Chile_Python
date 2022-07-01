@@ -22,29 +22,28 @@ def envia_y_limpia(data):
     urllib3.disable_warnings()
     s=requests.Session()
     s.headers.update(headers)
-    r=s.get(URL, verify=False)
-    soup=BeautifulSoup(r.content,"html.parser")
     r=s.post(URL, data=data)
     soup=BeautifulSoup(r.content,"html.parser")
+    #print(soup)
     data = []
-    table = soup.find('table', attrs={'class':'table table-hover'})
-    table_body = table.find('tbody')
-    data = str(table_body.find('tr'))
-    data = data.replace("<tr tabindex=\"1\">", '')
+    table = soup.find('table')
+    #print(table)
+    table_body = table.findAll('tr')[1]
+    #print(table_body)
+    data = str(table_body.findAll('td'))
+    data = data.replace("<tr>", '')
     data = data.replace("</tr>", '')
     data = data.replace("</td>", '')
     data = data.replace("<td>", '')
-    data = data.replace("<td style=\"white-space: nowrap;\">", '')
-    data = data.split("\n")
-    data.pop(0)
-    data.pop(-1)
-
+    data = data.replace("[", '')
+    data = data.replace("]", '')
+    data = data.split(",")
     return data
 try:
     #Envio POST a:
-    URL = "https://www.nombrerutyfirma.com/busca_rut"
+    URL = "https://rutificador.org/backend.php"
     # Necesito estos datos
-    head = ["Nombre", "Run", "Sexo", "Direccion Servel"]
+    head = ["Run", "Nombre", "Sexo", "Direccion Servel", "Ciudad"]
 
     run_origen = None
     Run=sys.argv[1]
@@ -60,7 +59,8 @@ try:
     Run = coloca_puntos(Run)
 
     data={
-        "term": Run
+        "rut": Run,
+        "action": "search_by_rut"
         }
 
     data = envia_y_limpia(data)
