@@ -1,3 +1,8 @@
 # Rutificador_Chile_Python
-Obtener Nombre, Run,Sexo, Direccion, Servel
-Uso: python rutificador.py [12345678-0 || 12345678 || 12.345.678-0 || 12.345.678]
+
+## Obtener datos personales.
+
+Uso: [py | python] rutificador.py 10123456-7
+
+## Devuelve Json:
+{"nombre": "Juan perez", "run": "10123456-7", "sexo": "VAR", "direccion_servel": "Av Hello world 123", "circunscripcion_electoral": "Alameda", "comuna": "Santiago"}
